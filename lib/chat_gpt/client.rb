@@ -5,7 +5,7 @@ module ChatGPT
   class Client
     def initialize(api_key: ENV["OPENAI_API_KEY"], system_prompt: nil)
       if api_key.nil? || api_key.empty?
-        raise Error, "You must provide an API token or set the OPENAI_API_KEY environment variable"
+        raise ChatGPT::Error, "You must provide an API token or set the OPENAI_API_KEY environment variable"
       end
 
       @api_key = api_key
@@ -58,7 +58,7 @@ module ChatGPT
     end
 
     def extract_response(response)
-      raise Error, "Error: #{response.code} - #{response.body}" unless response.code == "200"
+      raise ChatGPT::Error, "Error: #{response.code} - #{response.body}" unless response.code == "200"
 
       JSON.parse(response.body)
     end
