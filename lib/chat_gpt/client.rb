@@ -3,13 +3,14 @@
 module ChatGPT
   # The client for the OpenAI ChatGPT API
   class Client
-    def initialize(api_key: ENV["OPENAI_API_KEY"], system_prompt: nil)
+    def initialize(api_key: ENV["OPENAI_API_KEY"], system_prompt: nil, temperature: nil)
       if api_key.nil? || api_key.empty?
         raise ChatGPT::Error, "You must provide an API token or set the OPENAI_API_KEY environment variable"
       end
 
       @api_key = api_key
       @system_prompt = system_prompt
+      @temperature = temperature
       @history = []
     end
 
@@ -66,7 +67,8 @@ module ChatGPT
     def build_body
       {
         model: "gpt-3.5-turbo",
-        messages: history
+        messages: history,
+        temperature: @temperature
       }
     end
 
